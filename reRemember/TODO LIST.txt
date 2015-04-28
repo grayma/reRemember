@@ -1,0 +1,6 @@
+﻿Main Form
+-Implement copy paste cut and select based on selected view
+-new, open, save dialogs and functions for opening and saving
+-print and print preview (long term)
+-once open displaying of contents (recursive node population)
+
