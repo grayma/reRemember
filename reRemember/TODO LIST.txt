@@ -1,6 +1,14 @@
 ﻿Main Form
--Implement copy paste cut and select based on selected view
+-implement copy paste cut and select based on selected view
 -new, open, save dialogs and functions for opening and saving
 -print and print preview (long term)
 -once open displaying of contents (recursive node population)
 
+Study Form
+-make card status work (display what card you're on, times correct and incorrect, and what attempt you're at on it)
+-correct, incorrect, next, previous, and finish buttons
+-display results view
+
+Results Form
+-make title give information about results
+-display total correct, total incorrect, change from last study session, and maybe list of cards organized by most missed?
