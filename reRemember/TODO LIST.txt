@@ -12,3 +12,5 @@ Study Form
 Results Form
 -make title give information about results
 -display total correct, total incorrect, change from last study session, and maybe list of cards organized by most missed?
+
+finish testing, documentation, and testing is opening and saving 
