@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace reRemember.Classes
 {
+    [Serializable]
     public class Card
     {
         //constructors
+        public Card() { } //needed for serialization
         public Card(string front, string back)
         {
             this.Front = front;

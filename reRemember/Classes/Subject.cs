@@ -8,9 +8,11 @@ using System.Xml.Serialization;
 
 namespace reRemember.Classes
 {
+    [Serializable]
     public class Subject
     {
         //constructors
+        public Subject() { } //needed for serialization
         public Subject(string title)
         {
             this.Title = title;
@@ -35,9 +37,11 @@ namespace reRemember.Classes
         }
     }
     
+    [Serializable]
     public class RootSubject : Subject
     {
         //constructors
+        public RootSubject() : base() { } //needed for serialization
         public RootSubject(string title) : base(title) { }
         public RootSubject(string title, List<Subject> childSubjects, List<Card> cards) : base(title,childSubjects, cards)
         {
@@ -51,15 +55,15 @@ namespace reRemember.Classes
         /// <returns>Boolean value showing whether or not saving was a success.</returns>
         public bool Save(string filePath)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(RootSubject));
             try
             {
+                XmlSerializer serializer = new XmlSerializer(typeof(RootSubject));
                 StreamWriter writer = new StreamWriter(filePath);
                 serializer.Serialize(writer, this);
                 writer.Close();
                 return true;
             }
-            catch { return false; }
+            catch (Exception x) { return false; }
         }
 
         /// <summary>

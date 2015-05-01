@@ -29,10 +29,17 @@ namespace reRemember
             cards.Add(card2);
             cards.Add(card3);
 
-            Subject calculus = new Subject("Calculus", new List<Subject>, cards);
+            Subject calculus = new Subject("Calculus", new List<Subject>(), cards);
             List<Subject> subjects = new List<Subject>();
             subjects.Add(calculus);
-            RootSubject math = new RootSubject("Math", subjects, new List<Card>);
+            RootSubject math = new RootSubject("Math", subjects, new List<Card>());
+            if (math.Save("C:\\Users\\grayma0717\\Desktop\\test.xml"))
+                MessageBox.Show("yay");
+            else
+                MessageBox.Show("nay");
+            
+            var x = RootSubject.Open("C:\\Users\\grayma0717\\Desktop\\test.xml");
+            var y = 1; 
         }
     }
 }
