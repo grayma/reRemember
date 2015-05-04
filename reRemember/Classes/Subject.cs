@@ -63,7 +63,7 @@ namespace reRemember.Classes
                 writer.Close();
                 return true;
             }
-            catch (Exception x) { return false; }
+            catch { return false; }
         }
 
         /// <summary>

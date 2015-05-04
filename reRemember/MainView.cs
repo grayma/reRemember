@@ -21,6 +21,36 @@ namespace reRemember
 
         private void MainView_Load(object sender, EventArgs e)
         {
+            testingSavingAndLoading();
+        }
+
+        #region Main Functions
+        public TreeNode LoadSubjectToNode(Subject subject)
+        {
+            List<TreeNode> nodes = new List<TreeNode>();
+            TreeNode node = new TreeNode(subject.Title);
+            node.Tag = subject;
+            foreach (Subject subSubject in subject.ChildSubjects)
+            {
+                node.Nodes.Add(LoadSubjectToNode(subSubject));
+            }
+            return node;
+        }
+        public RootSubject SubjectFromTree()
+        {
+            if (treeMain.Nodes.Count > 0)
+                return (RootSubject)treeMain.Nodes[0].Tag;
+            else
+                return null;
+        }
+        #endregion
+
+        #region Testing Code
+        /// <summary>
+        /// Testing saving code.
+        /// </summary>
+        void testingSavingAndLoading()
+        {
             Card card1 = new Card("1", "1b");
             Card card2 = new Card("2", "2b");
             Card card3 = new Card("3", "3b");
@@ -37,9 +67,10 @@ namespace reRemember
                 MessageBox.Show("yay");
             else
                 MessageBox.Show("nay");
-            
+
             var x = RootSubject.Open("C:\\Users\\grayma0717\\Desktop\\test.xml");
-            var y = 1; 
+            treeMain.Nodes.Add(LoadSubjectToNode(x));
         }
+        #endregion
     }
 }
