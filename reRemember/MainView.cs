@@ -168,6 +168,38 @@ namespace reRemember
         }
         #endregion
 
-        
+        #region Tree Context Events
+        private void newSubjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void deleteSubjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void editSubjectNameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+        #region List Context Events
+        private void newCardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void deleteCardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
     }
 }
