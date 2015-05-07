@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Card.cs" />
+    <Compile Include="Classes\Helper.cs" />
     <Compile Include="Classes\StudySession.cs" />
     <Compile Include="Classes\Subject.cs" />
     <Compile Include="EditingView.cs">

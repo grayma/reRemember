@@ -14,6 +14,12 @@ namespace reRemember
 {
     public partial class MainView : Form
     {
+        #region Variables
+        const string fileFilter = "reRemember XML (*.rrxml)|*.rrxml";
+        string currentOpenFilePath = "";
+        bool isFileOpen { get { return string.IsNullOrEmpty(currentOpenFilePath); } }
+        #endregion
+
         public MainView()
         {
             InitializeComponent();
@@ -21,10 +27,16 @@ namespace reRemember
 
         private void MainView_Load(object sender, EventArgs e)
         {
-            testingSavingAndLoading();
+            //testingSavingAndLoading();
+            new EditingView().ShowDialog();
         }
 
-        #region Main Functions
+        #region Main Loading/Saving Functions
+        /// <summary>
+        /// Loads a TreeNode recursively from a subject class.
+        /// </summary>
+        /// <param name="subject">Subject to open from.</param>
+        /// <returns>TreeNode recursively populated.</returns>
         public TreeNode LoadSubjectToNode(Subject subject)
         {
             List<TreeNode> nodes = new List<TreeNode>();
@@ -36,12 +48,42 @@ namespace reRemember
             }
             return node;
         }
+
+        /// <summary>
+        /// Gets RootSubject from treeMain.
+        /// </summary>
+        /// <returns>Returns RootSubject from treeMain.</returns>
         public RootSubject SubjectFromTree()
         {
             if (treeMain.Nodes.Count > 0)
                 return (RootSubject)treeMain.Nodes[0].Tag;
             else
                 return null;
+        }
+
+        /// <summary>
+        /// Saves file to filePath parameter if used, if not it's saved using a SaveFileDialog.
+        /// </summary>
+        /// <param name="filePath">File path to save to.</param>
+        void saveFile(bool saveAs)
+        {
+            if (!saveAs)
+            {
+                SubjectFromTree().Save(currentOpenFilePath);
+                Helper.ShowInfo("Card set saved to " + currentOpenFilePath);
+            }
+            else
+            {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = fileFilter;
+                sfd.Title = "Save a reRemember file.";
+                if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    SubjectFromTree().Save(sfd.FileName);
+                    currentOpenFilePath = sfd.FileName;
+                    Helper.ShowInfo("Card set saved to " + currentOpenFilePath);
+                }
+            }
         }
         #endregion
 
@@ -72,5 +114,60 @@ namespace reRemember
             treeMain.Nodes.Add(LoadSubjectToNode(x));
         }
         #endregion
+
+        #region Main Menu Code Events
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            treeMain.Nodes.Clear();
+            listMain.Items.Clear();
+            currentOpenFilePath = "";
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = fileFilter;
+            ofd.Title = "Open a reRemember file.";
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                //clear list and tree
+                treeMain.Nodes.Clear();
+                listMain.Items.Clear();
+                //open selected subject
+                RootSubject openedSubject = RootSubject.Open(ofd.FileName);
+                treeMain.Nodes.Add(LoadSubjectToNode(openedSubject));
+                currentOpenFilePath = ofd.FileName;
+            }
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeMain.Nodes.Count > 0) //makes sure we aren't trying to save a file that doesn't exist
+            {
+                if (isFileOpen) //makes sure we have a file to save without save as
+                    saveFile(false);
+                else
+                    saveFile(true);
+            }
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeMain.Nodes.Count > 0) //makes sure we aren't trying to save a file that doesn't exist
+                saveFile(true);
+        }
+
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void printPreviewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
+
+        
     }
 }
