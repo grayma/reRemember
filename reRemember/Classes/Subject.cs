@@ -12,10 +12,19 @@ namespace reRemember.Classes
     public class Subject
     {
         //constructors
-        public Subject() { } //needed for serialization
+        public Subject()
+        {
+            Title = "";
+            ChildSubjects = new List<Subject>();
+            PastStudySessions = new List<StudySession>();
+            Cards = new List<Card>();
+        }
         public Subject(string title)
         {
             this.Title = title;
+            ChildSubjects = new List<Subject>();
+            PastStudySessions = new List<StudySession>();
+            Cards = new List<Card>();
         }
         public Subject(string title, List<Subject> childSubjects, List<Card> cards)
         {
@@ -59,6 +68,8 @@ namespace reRemember.Classes
             try
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(RootSubject));
+                if (!File.Exists(filePath))
+                    File.Create(filePath);
                 StreamWriter writer = new StreamWriter(filePath);
                 serializer.Serialize(writer, this);
                 writer.Close();

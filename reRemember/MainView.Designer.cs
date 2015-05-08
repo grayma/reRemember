@@ -113,7 +113,7 @@
             this.toolStripSeparator7,
             this.studySubjectToolStripMenuItem});
             this.contextMenuTree.Name = "contextMenuTree";
-            this.contextMenuTree.Size = new System.Drawing.Size(172, 120);
+            this.contextMenuTree.Size = new System.Drawing.Size(172, 98);
             // 
             // newSubjectToolStripMenuItem
             // 
@@ -302,6 +302,7 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -412,6 +413,7 @@
             this.MainMenuStrip = this.menuStripMain;
             this.Name = "MainView";
             this.Text = "reRemember";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainView_FormClosing);
             this.Load += new System.EventHandler(this.MainView_Load);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);

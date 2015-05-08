@@ -26,11 +26,26 @@ namespace reRemember
             InitializeComponent();
         }
 
+        #region Form Events
         private void MainView_Load(object sender, EventArgs e)
         {
-            //testingSavingAndLoading();
-            new EditingView().ShowDialog();
+            
         }
+
+        private void MainView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (edited)
+            {
+                System.Windows.Forms.DialogResult dialogResult = MessageBox.Show("You haven't saved your changes.  Would you like to save?", "Warning!", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if (dialogResult == System.Windows.Forms.DialogResult.Yes)
+                    saveFile(string.IsNullOrEmpty(currentOpenFilePath)); //saves
+                else if (dialogResult == System.Windows.Forms.DialogResult.No)
+                    return; //allow closing without saving
+                else
+                    e.Cancel = true; //cancels form closing
+            }
+        }
+        #endregion
 
         #region Main Loading/Saving Functions
         /// <summary>
@@ -119,13 +134,17 @@ namespace reRemember
         #region Main Menu Code Events
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string name = Helper.InputBox("What would you like to name this new main subject?", "Subject Name");
+            if (string.IsNullOrEmpty(name))
+                return; //assume the user changed their mind and canceled creating a new subject
             treeMain.Nodes.Clear();
             listMain.Items.Clear();
             currentOpenFilePath = "";
-            RootSubject subject = new RootSubject(Helper.InputBox("What would you like to name this new main subject?", "Subject Name"));
+            RootSubject subject = new RootSubject(name);
             TreeNode node = new TreeNode(subject.Title);
             node.Tag = subject;
             treeMain.Nodes.Add(node);
+            edited = true;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -171,6 +190,11 @@ namespace reRemember
         {
 
         }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close(); //closes from menustrip (WHO DOES THIS?!)
+        }
         #endregion
 
         #region Tree Events, Context Events, and Variables
@@ -178,8 +202,32 @@ namespace reRemember
         {
             //check if a current node is selected and get it
             //if not selected don't allow creation of root node
-            //if so return node, create new subject object, add to tree and add subject to tag, then select
-            //edit flag
+            TreeNode selectedNode = null;
+            if (treeMain.SelectedNode != null)
+                selectedNode = treeMain.SelectedNode;
+            else
+            {
+                Helper.ShowError("You need to select a subject to create a new subject within.");
+                return;
+            }
+            //if so get node, create new subject object, add to tree and add subject to tag, then select
+            string name = Helper.InputBox("What would you like to name this new subject?", "Subject Name");
+            if (string.IsNullOrEmpty(name))
+                return; //assuming the user canceled
+            else
+            {
+                Subject newSubject = new Subject(name);
+                //get parent subject from parent node tag and add this to it
+                Subject parentSubject = (Subject)selectedNode.Tag;
+                parentSubject.ChildSubjects.Add(newSubject);
+                selectedNode.Tag = parentSubject;
+                //create new child node and add it
+                TreeNode child = new TreeNode(name);
+                child.Tag = newSubject;
+                selectedNode.Nodes.Add(child);
+                Helper.ShowInfo("New subject " + name + " successfully added!");
+                edited = true; //edit flag
+            }
         }
 
         private void deleteSubjectToolStripMenuItem_Click(object sender, EventArgs e)
