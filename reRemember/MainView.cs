@@ -18,6 +18,7 @@ namespace reRemember
         const string fileFilter = "reRemember XML (*.rrxml)|*.rrxml";
         string currentOpenFilePath = "";
         bool isFileOpen { get { return string.IsNullOrEmpty(currentOpenFilePath); } }
+        bool edited = false;
         #endregion
 
         public MainView()
@@ -65,7 +66,7 @@ namespace reRemember
         /// Saves file to filePath parameter if used, if not it's saved using a SaveFileDialog.
         /// </summary>
         /// <param name="filePath">File path to save to.</param>
-        void saveFile(bool saveAs)
+        void saveFile(bool saveAs = true)
         {
             if (!saveAs)
             {
@@ -121,6 +122,10 @@ namespace reRemember
             treeMain.Nodes.Clear();
             listMain.Items.Clear();
             currentOpenFilePath = "";
+            RootSubject subject = new RootSubject(Helper.InputBox("What would you like to name this new main subject?", "Subject Name"));
+            TreeNode node = new TreeNode(subject.Title);
+            node.Tag = subject;
+            treeMain.Nodes.Add(node);
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -147,7 +152,7 @@ namespace reRemember
                 if (isFileOpen) //makes sure we have a file to save without save as
                     saveFile(false);
                 else
-                    saveFile(true);
+                    saveFile();
             }
         }
 
@@ -168,37 +173,62 @@ namespace reRemember
         }
         #endregion
 
-        #region Tree Context Events
+        #region Tree Events, Context Events, and Variables
         private void newSubjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            //check if a current node is selected and get it
+            //if not selected don't allow creation of root node
+            //if so return node, create new subject object, add to tree and add subject to tag, then select
+            //edit flag
         }
 
         private void deleteSubjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            //check if a current node is selected and get it
+            //if root or not selected don't allow deletion
+            //if valid remove node and remove it from parent node tag
+            //edit flag
         }
 
         private void editSubjectNameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            //check if a current node is selected and get it
+            //if not don't allow
+            //if valid edit input box to edit node name
+            //edit flag
         }
         #endregion
 
         #region List Context Events
         private void newCardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            //make sure subject is selected and get it
+            //add card to list view and tag of selected node
+            //edited flag
         }
 
         private void deleteCardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            //make sure card is selected and get it
+            //remove from listview and tag of selected node
+            //edited flag
         }
 
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        private void editCardToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //make sure card is selected and get it
+            //editing form loaded with card in it
+            //get edited card and save its data
+            //edited flag
+        }
 
+        private void studySubjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //create menu/form to ask which method they'd like to study by
+            //hide main form, create study dialog, and let study session occur
+            //get and display results
+            //add study session to past study sessions
+            //show main form and edit flag or prompt for saving
         }
         #endregion
     }

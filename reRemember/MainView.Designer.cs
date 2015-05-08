@@ -35,7 +35,6 @@
             this.contextMenuTree = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.newSubjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSubjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.editSubjectNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listMain = new System.Windows.Forms.ListView();
             this.front = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -44,7 +43,7 @@
             this.newCardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteCardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.editCardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -68,6 +67,8 @@
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.studySubjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -108,10 +109,11 @@
             this.contextMenuTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newSubjectToolStripMenuItem,
             this.deleteSubjectToolStripMenuItem,
-            this.toolStripSeparator5,
-            this.editSubjectNameToolStripMenuItem});
+            this.editSubjectNameToolStripMenuItem,
+            this.toolStripSeparator7,
+            this.studySubjectToolStripMenuItem});
             this.contextMenuTree.Name = "contextMenuTree";
-            this.contextMenuTree.Size = new System.Drawing.Size(172, 76);
+            this.contextMenuTree.Size = new System.Drawing.Size(172, 120);
             // 
             // newSubjectToolStripMenuItem
             // 
@@ -126,11 +128,6 @@
             this.deleteSubjectToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.deleteSubjectToolStripMenuItem.Text = "Delete Subject";
             this.deleteSubjectToolStripMenuItem.Click += new System.EventHandler(this.deleteSubjectToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator5
-            // 
-            this.toolStripSeparator5.Name = "toolStripSeparator5";
-            this.toolStripSeparator5.Size = new System.Drawing.Size(168, 6);
             // 
             // editSubjectNameToolStripMenuItem
             // 
@@ -170,35 +167,35 @@
             this.newCardToolStripMenuItem,
             this.deleteCardToolStripMenuItem,
             this.toolStripSeparator6,
-            this.toolStripMenuItem2});
+            this.editCardToolStripMenuItem});
             this.contextMenuList.Name = "contextMenuList";
-            this.contextMenuList.Size = new System.Drawing.Size(153, 98);
+            this.contextMenuList.Size = new System.Drawing.Size(136, 76);
             // 
             // newCardToolStripMenuItem
             // 
             this.newCardToolStripMenuItem.Name = "newCardToolStripMenuItem";
-            this.newCardToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newCardToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.newCardToolStripMenuItem.Text = "New Card";
             this.newCardToolStripMenuItem.Click += new System.EventHandler(this.newCardToolStripMenuItem_Click);
             // 
             // deleteCardToolStripMenuItem
             // 
             this.deleteCardToolStripMenuItem.Name = "deleteCardToolStripMenuItem";
-            this.deleteCardToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.deleteCardToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.deleteCardToolStripMenuItem.Text = "Delete Card";
             this.deleteCardToolStripMenuItem.Click += new System.EventHandler(this.deleteCardToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(132, 6);
             // 
-            // toolStripMenuItem2
+            // editCardToolStripMenuItem
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem2.Text = "Edit Card";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            this.editCardToolStripMenuItem.Name = "editCardToolStripMenuItem";
+            this.editCardToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
+            this.editCardToolStripMenuItem.Text = "Edit Card";
+            this.editCardToolStripMenuItem.Click += new System.EventHandler(this.editCardToolStripMenuItem_Click);
             // 
             // menuStripMain
             // 
@@ -393,6 +390,18 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
             // 
+            // studySubjectToolStripMenuItem
+            // 
+            this.studySubjectToolStripMenuItem.Name = "studySubjectToolStripMenuItem";
+            this.studySubjectToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.studySubjectToolStripMenuItem.Text = "Study Subject";
+            this.studySubjectToolStripMenuItem.Click += new System.EventHandler(this.studySubjectToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(168, 6);
+            // 
             // MainView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -451,12 +460,13 @@
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newSubjectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteSubjectToolStripMenuItem;
-        private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem editSubjectNameToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newCardToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteCardToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem editCardToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator7;
+        private System.Windows.Forms.ToolStripMenuItem studySubjectToolStripMenuItem;
     }
 }
 

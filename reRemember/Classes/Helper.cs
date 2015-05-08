@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic;
 
 namespace reRemember.Classes
 {
@@ -20,6 +21,10 @@ namespace reRemember.Classes
         public static string RtfToString(string rtf)
         {
             return new RichTextBox() { Rtf = rtf }.Text;
+        }
+        public static string InputBox(string prompt, string title)
+        {
+            return Interaction.InputBox(prompt, title);
         }
     }
 }

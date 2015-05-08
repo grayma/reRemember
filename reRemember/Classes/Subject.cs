@@ -27,6 +27,7 @@ namespace reRemember.Classes
         //properties (fields done separately in case modifcations/checks need to be made)
         public string Title { get; set; }
         public List<Subject> ChildSubjects { get; set; }
+        public List<StudySession> PastStudySessions { get; set; }
         public List<Card> Cards { get; set; }
         public bool HasChildSubjects
         {
