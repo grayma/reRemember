@@ -17,7 +17,7 @@ namespace reRemember
         #region Variables
         const string fileFilter = "reRemember XML (*.rrxml)|*.rrxml";
         string currentOpenFilePath = "";
-        bool isFileOpen { get { return string.IsNullOrEmpty(currentOpenFilePath); } }
+        bool isFileOpen { get { return !string.IsNullOrEmpty(currentOpenFilePath); } }
         bool edited = false;
         #endregion
 
@@ -87,6 +87,7 @@ namespace reRemember
             {
                 SubjectFromTree().Save(currentOpenFilePath);
                 Helper.ShowInfo("Card set saved to " + currentOpenFilePath);
+                edited = false;
             }
             else
             {
@@ -98,8 +99,24 @@ namespace reRemember
                     SubjectFromTree().Save(sfd.FileName);
                     currentOpenFilePath = sfd.FileName;
                     Helper.ShowInfo("Card set saved to " + currentOpenFilePath);
+                    edited = false;
                 }
             }
+        }
+
+        /// <summary>
+        /// Opens a file to the TreeView.
+        /// </summary>
+        /// <param name="fileName">Path to file that will be opened.</param>
+        void openFile(string fileName)
+        {
+            //clear list and tree
+            treeMain.Nodes.Clear();
+            listMain.Items.Clear();
+            //open selected subject
+            RootSubject openedSubject = RootSubject.Open(fileName);
+            treeMain.Nodes.Add(LoadSubjectToNode(openedSubject));
+            currentOpenFilePath = fileName;
         }
         #endregion
 
@@ -153,15 +170,7 @@ namespace reRemember
             ofd.Filter = fileFilter;
             ofd.Title = "Open a reRemember file.";
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                //clear list and tree
-                treeMain.Nodes.Clear();
-                listMain.Items.Clear();
-                //open selected subject
-                RootSubject openedSubject = RootSubject.Open(ofd.FileName);
-                treeMain.Nodes.Add(LoadSubjectToNode(openedSubject));
-                currentOpenFilePath = ofd.FileName;
-            }
+                openFile(ofd.FileName);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -225,7 +234,8 @@ namespace reRemember
                 TreeNode child = new TreeNode(name);
                 child.Tag = newSubject;
                 selectedNode.Nodes.Add(child);
-                Helper.ShowInfo("New subject " + name + " successfully added!");
+                if (!selectedNode.IsExpanded)
+                    selectedNode.Expand();
                 edited = true; //edit flag
             }
         }
@@ -233,9 +243,25 @@ namespace reRemember
         private void deleteSubjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //check if a current node is selected and get it
+            TreeNode selectedNode = null;
+            if (treeMain.SelectedNode != null)
+                selectedNode = treeMain.SelectedNode;
+            else
+            {
+                Helper.ShowError("You need to select a subject to delete.");
+                return;
+            }
             //if root or not selected don't allow deletion
+            if (selectedNode.Level == 0) //root node
+            {
+                Helper.ShowError("You can't delete the root subject, the file itselt must be deleted.");
+                return;
+            }
             //if valid remove node and remove it from parent node tag
+            ((Subject)selectedNode.Parent.Tag).ChildSubjects.Remove((Subject)selectedNode.Tag);
+            selectedNode.Remove();
             //edit flag
+            edited = true;
         }
 
         private void editSubjectNameToolStripMenuItem_Click(object sender, EventArgs e)

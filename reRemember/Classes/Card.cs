@@ -33,5 +33,6 @@ namespace reRemember.Classes
             }
 
         } //property that calculates percentage correct
+        public int CardStatus { get; set; } //cardstatus used when initialized in study session
     }
 }

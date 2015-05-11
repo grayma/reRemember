@@ -13,9 +13,10 @@ namespace reRemember.Classes
         Incorrect = 2
     }
     
+    [Serializable]
     public class StudySession
     {
         //properties
-        public Dictionary<Card, CardStatus> SessionCards { get; set; }
+        public List<Card> SessionCards { get; set; }
     }
 }

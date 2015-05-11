@@ -46,16 +46,17 @@ namespace reRemember.Classes
             }
         }
     }
-    
+
     [Serializable]
     public class RootSubject : Subject
     {
         //constructors
         public RootSubject() : base() { } //needed for serialization
         public RootSubject(string title) : base(title) { }
-        public RootSubject(string title, List<Subject> childSubjects, List<Card> cards) : base(title,childSubjects, cards)
+        public RootSubject(string title, List<Subject> childSubjects, List<Card> cards)
+            : base(title, childSubjects, cards)
         {
-            
+
         }
 
         /// <summary>
@@ -65,17 +66,13 @@ namespace reRemember.Classes
         /// <returns>Boolean value showing whether or not saving was a success.</returns>
         public bool Save(string filePath)
         {
-            try
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(RootSubject));
-                if (!File.Exists(filePath))
-                    File.Create(filePath);
-                StreamWriter writer = new StreamWriter(filePath);
-                serializer.Serialize(writer, this);
-                writer.Close();
-                return true;
-            }
-            catch { return false; }
+            XmlSerializer serializer = new XmlSerializer(typeof(RootSubject));
+            if (!File.Exists(filePath))
+                File.Create(filePath);
+            StreamWriter writer = new StreamWriter(filePath);
+            serializer.Serialize(writer, this);
+            writer.Close();
+            return true;
         }
 
         /// <summary>
@@ -86,13 +83,10 @@ namespace reRemember.Classes
         public static RootSubject Open(string filePath)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(RootSubject));
-            try
-            {
-                StreamReader reader = new StreamReader(filePath);
-                RootSubject returnSubject = (RootSubject)serializer.Deserialize(reader);
-                return returnSubject;
-            }
-            catch { return null; }
+            StreamReader reader = new StreamReader(filePath);
+            RootSubject returnSubject = (RootSubject)serializer.Deserialize(reader);
+            reader.Close();
+            return returnSubject;
         }
     }
 }
