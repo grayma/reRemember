@@ -268,8 +268,22 @@ namespace reRemember
         {
             //check if a current node is selected and get it
             //if not don't allow
+            TreeNode selectedNode = null;
+            if (treeMain.SelectedNode != null)
+                selectedNode = treeMain.SelectedNode;
+            else
+            {
+                Helper.ShowError("You need to select a subject to delete.");
+                return;
+            }
             //if valid edit input box to edit node name
+            string name = Helper.InputBox("What would you like to rename this new subject?", "Subject Name");
+            selectedNode.Text = name;
+            ((Subject)selectedNode.Tag).Title = name;
+            if (selectedNode.Level > 0) //can't fix a root nodes parent because it is an orphan
+                ((Subject)selectedNode.Parent.Tag).ChildSubjects[((Subject)selectedNode.Parent.Tag).ChildSubjects.IndexOf((Subject)selectedNode.Tag)] = (Subject)selectedNode.Tag; //ew there has to be a better way to do this
             //edit flag
+            edited = true;
         }
         #endregion
 
