@@ -36,6 +36,8 @@
             this.newSubjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteSubjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editSubjectNameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
+            this.studySubjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listMain = new System.Windows.Forms.ListView();
             this.front = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.back = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -67,8 +69,6 @@
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.studySubjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator7 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -103,6 +103,7 @@
             this.treeMain.Name = "treeMain";
             this.treeMain.Size = new System.Drawing.Size(154, 330);
             this.treeMain.TabIndex = 0;
+            this.treeMain.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeMain_NodeMouseClick);
             // 
             // contextMenuTree
             // 
@@ -135,6 +136,18 @@
             this.editSubjectNameToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
             this.editSubjectNameToolStripMenuItem.Text = "Edit Subject Name";
             this.editSubjectNameToolStripMenuItem.Click += new System.EventHandler(this.editSubjectNameToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator7
+            // 
+            this.toolStripSeparator7.Name = "toolStripSeparator7";
+            this.toolStripSeparator7.Size = new System.Drawing.Size(168, 6);
+            // 
+            // studySubjectToolStripMenuItem
+            // 
+            this.studySubjectToolStripMenuItem.Name = "studySubjectToolStripMenuItem";
+            this.studySubjectToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.studySubjectToolStripMenuItem.Text = "Study Subject";
+            this.studySubjectToolStripMenuItem.Click += new System.EventHandler(this.studySubjectToolStripMenuItem_Click);
             // 
             // listMain
             // 
@@ -390,18 +403,6 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
-            // 
-            // studySubjectToolStripMenuItem
-            // 
-            this.studySubjectToolStripMenuItem.Name = "studySubjectToolStripMenuItem";
-            this.studySubjectToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.studySubjectToolStripMenuItem.Text = "Study Subject";
-            this.studySubjectToolStripMenuItem.Click += new System.EventHandler(this.studySubjectToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator7
-            // 
-            this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(168, 6);
             // 
             // MainView
             // 

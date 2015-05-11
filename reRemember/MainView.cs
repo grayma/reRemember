@@ -19,6 +19,7 @@ namespace reRemember
         string currentOpenFilePath = "";
         bool isFileOpen { get { return !string.IsNullOrEmpty(currentOpenFilePath); } }
         bool edited = false;
+        TreeNode lastSelectedNode = null;
         #endregion
 
         public MainView()
@@ -43,6 +44,29 @@ namespace reRemember
                     return; //allow closing without saving
                 else
                     e.Cancel = true; //cancels form closing
+            }
+        }
+
+        List<Card> populateCards(Subject subject)
+        {
+            List<Card> returnCards = new List<Card>();
+            returnCards.AddRange(subject.Cards);
+            foreach (Subject innerSubject in subject.ChildSubjects)
+                returnCards.AddRange(populateCards(innerSubject));
+            return returnCards;
+        }
+
+        private void treeMain_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            lastSelectedNode = e.Node; //keeps track of last selected node
+            listMain.Items.Clear();
+            List<Card> cards = populateCards((Subject)lastSelectedNode.Tag);
+            foreach (Card card in cards)
+            {
+                ListViewItem item = new ListViewItem(Helper.RtfToString(card.Front));
+                item.SubItems.Add(Helper.RtfToString(card.Back));
+                item.Tag = card;
+                listMain.Items.Add(item);
             }
         }
         #endregion
@@ -291,7 +315,13 @@ namespace reRemember
         private void newCardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //make sure subject is selected and get it
+            if (lastSelectedNode == null)
+            {
+                Helper.ShowError("You must select a subject to work on cards with.");
+                return;
+            }
             //add card to list view and tag of selected node
+            Card card = EditingView.GetCard();
             //edited flag
         }
 
