@@ -310,6 +310,15 @@ namespace reRemember
             //edit flag
             edited = true;
         }
+
+        private void studySubjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //create menu/form to ask which method they'd like to study by
+            //hide main form, create study dialog, and let study session occur
+            //get and display results
+            //add study session to past study sessions
+            //show main form and edit flag or prompt for saving
+        }
         #endregion
 
         #region List Context Events
@@ -330,30 +339,46 @@ namespace reRemember
             listMain.Items.Add(item);
             ((Subject)lastSelectedNode.Tag).Cards.Add(card);
             //edited flag
+            edited = true;
         }
 
         private void deleteCardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //make sure card is selected and get it
+            ListViewItem selectedItem;
+            if (listMain.SelectedItems.Count > 0)
+                selectedItem = listMain.SelectedItems[0];
+            else
+                return;
             //remove from listview and tag of selected node
+            selectedItem.Remove();
+            ((Subject)lastSelectedNode.Tag).Cards.Remove((Card)selectedItem.Tag);
             //edited flag
+            edited = true;
         }
 
         private void editCardToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //make sure card is selected and get it
+            ListViewItem selectedItem;
+            if (listMain.SelectedItems.Count > 0)
+                selectedItem = listMain.SelectedItems[0];
+            else
+                return;
+            Card card = (Card)selectedItem.Tag;
             //editing form loaded with card in it
             //get edited card and save its data
+            Card newCard = card = EditingView.GetCard(card.Front, card.Back, false);
+            ((Subject)lastSelectedNode.Tag).Cards.[((Subject)lastSelectedNode.Tag).Cards.IndexOf(card)] = newCard;
+            ListViewItem item = new ListViewItem(Helper.RtfToString(newCard.Front));
+            item.SubItems.Add(Helper.RtfToString(card.Back));
+            item.SubItems.Add(card.SubjectTitle);
+            selectedItem.SubItems.Clear();
+            foreach (ListViewItem subitem in item.SubItems)
+                selectedItem.SubItems.Add(subitem.Text);
+            selectedItem.Tag = newCard;
             //edited flag
-        }
-
-        private void studySubjectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //create menu/form to ask which method they'd like to study by
-            //hide main form, create study dialog, and let study session occur
-            //get and display results
-            //add study session to past study sessions
-            //show main form and edit flag or prompt for saving
+            edited = true;
         }
         #endregion
     }
