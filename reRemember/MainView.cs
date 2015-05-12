@@ -65,6 +65,7 @@ namespace reRemember
             {
                 ListViewItem item = new ListViewItem(Helper.RtfToString(card.Front));
                 item.SubItems.Add(Helper.RtfToString(card.Back));
+                item.SubItems.Add(card.SubjectTitle);
                 item.Tag = card;
                 listMain.Items.Add(item);
             }
@@ -322,6 +323,12 @@ namespace reRemember
             }
             //add card to list view and tag of selected node
             Card card = EditingView.GetCard();
+            card.SubjectTitle = ((Subject)lastSelectedNode.Tag).Title;
+            ListViewItem item = new ListViewItem(Helper.RtfToString(card.Front));
+            item.SubItems.Add(Helper.RtfToString(card.Back));
+            item.SubItems.Add(card.SubjectTitle);
+            listMain.Items.Add(item);
+            ((Subject)lastSelectedNode.Tag).Cards.Add(card);
             //edited flag
         }
 

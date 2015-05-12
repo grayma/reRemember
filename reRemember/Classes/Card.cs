@@ -16,6 +16,12 @@ namespace reRemember.Classes
             this.Front = front;
             this.Back = back;
         }
+        public Card(string front, string back, string subject)
+        {
+            this.Front = front;
+            this.Back = back;
+            this.SubjectTitle = subject;
+        }
 
         //properties
         public string Front { get; set; } //front of the card
@@ -34,5 +40,6 @@ namespace reRemember.Classes
 
         } //property that calculates percentage correct
         public int CardStatus { get; set; } //cardstatus used when initialized in study session
+        public string SubjectTitle { get; set; }
     }
 }

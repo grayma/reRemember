@@ -66,12 +66,13 @@ namespace reRemember.Classes
         /// <returns>Boolean value showing whether or not saving was a success.</returns>
         public bool Save(string filePath)
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(RootSubject));
-            if (!File.Exists(filePath))
-                File.Create(filePath);
-            StreamWriter writer = new StreamWriter(filePath);
-            serializer.Serialize(writer, this);
-            writer.Close();
+            using (FileStream stream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(RootSubject));
+                StreamWriter writer = new StreamWriter(stream);
+                serializer.Serialize(writer, this);
+                writer.Close();
+            }
             return true;
         }
 
@@ -83,10 +84,11 @@ namespace reRemember.Classes
         public static RootSubject Open(string filePath)
         {
             XmlSerializer serializer = new XmlSerializer(typeof(RootSubject));
-            StreamReader reader = new StreamReader(filePath);
-            RootSubject returnSubject = (RootSubject)serializer.Deserialize(reader);
-            reader.Close();
-            return returnSubject;
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                RootSubject returnSubject = (RootSubject)serializer.Deserialize(reader);
+                return returnSubject;
+            }
         }
     }
 }
