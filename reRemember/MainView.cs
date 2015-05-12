@@ -368,13 +368,14 @@ namespace reRemember
             Card card = (Card)selectedItem.Tag;
             //editing form loaded with card in it
             //get edited card and save its data
-            Card newCard = card = EditingView.GetCard(card.Front, card.Back, false);
-            ((Subject)lastSelectedNode.Tag).Cards.[((Subject)lastSelectedNode.Tag).Cards.IndexOf(card)] = newCard;
+            Card newCard = EditingView.GetCard(card.Front, card.Back, false);
+            ((Subject)lastSelectedNode.Tag).Cards[((Subject)lastSelectedNode.Tag).Cards.IndexOf(card)] = newCard;
             ListViewItem item = new ListViewItem(Helper.RtfToString(newCard.Front));
             item.SubItems.Add(Helper.RtfToString(card.Back));
             item.SubItems.Add(card.SubjectTitle);
             selectedItem.SubItems.Clear();
-            foreach (ListViewItem subitem in item.SubItems)
+            selectedItem.Text = item.Text;
+            foreach (ListViewItem.ListViewSubItem subitem in item.SubItems)
                 selectedItem.SubItems.Add(subitem.Text);
             selectedItem.Tag = newCard;
             //edited flag
