@@ -51,8 +51,10 @@ namespace reRemember
         {
             List<Card> returnCards = new List<Card>();
             returnCards.AddRange(subject.Cards);
-            foreach (Subject innerSubject in subject.ChildSubjects)
-                returnCards.AddRange(populateCards(innerSubject));
+            //removed because of editing with last selected node didn't work with recursiveness
+            //also might be better to not have
+            //foreach (Subject innerSubject in subject.ChildSubjects)
+            //    returnCards.AddRange(populateCards(innerSubject));
             return returnCards;
         }
 
