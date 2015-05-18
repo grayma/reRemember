@@ -37,14 +37,24 @@ namespace reRemember
             cardFrontRichTextBox.Font = new Font("Arial", 15);
         }
 
-        public static Card GetCard(string initialFrontText = "", string initialBackText = "", bool newCard = true)
+        public static Card GetCard(Card oldCard = null, bool newCard = true)
         {
             EditingView editor = new EditingView();
             editor.isNewCard = newCard;
+            string initialFrontText = newCard ? "" : oldCard.Front;
+            string initialBackText = newCard ? "" : oldCard.Back;
             editor.cardFrontRichTextBox.Rtf = initialFrontText;
             editor.cardBackRichTextBox.Rtf = initialBackText;
             editor.ShowDialog();
-            return new Card(editor.cardFrontRichTextBox.Rtf, editor.cardBackRichTextBox.Rtf);
+            Card returnNewCard = new Card(editor.cardFrontRichTextBox.Rtf, editor.cardBackRichTextBox.Rtf);
+            if (!newCard)
+            {
+                returnNewCard.SubjectTitle = oldCard.SubjectTitle;
+                returnNewCard.CorrectAttempts = oldCard.CorrectAttempts;
+                returnNewCard.TotalAttempts = oldCard.TotalAttempts;
+            }
+            return returnNewCard;
+
         }
 
         #region Formatting Options

@@ -66,7 +66,7 @@ namespace reRemember.Classes
         /// <returns>Boolean value showing whether or not saving was a success.</returns>
         public bool Save(string filePath)
         {
-            using (FileStream stream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            using (FileStream stream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite))
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(RootSubject));
                 StreamWriter writer = new StreamWriter(stream);

@@ -35,16 +35,7 @@ namespace reRemember
 
         private void MainView_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (edited)
-            {
-                System.Windows.Forms.DialogResult dialogResult = MessageBox.Show("You haven't saved your changes.  Would you like to save?", "Warning!", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
-                if (dialogResult == System.Windows.Forms.DialogResult.Yes)
-                    saveFile(string.IsNullOrEmpty(currentOpenFilePath)); //saves
-                else if (dialogResult == System.Windows.Forms.DialogResult.No)
-                    return; //allow closing without saving
-                else
-                    e.Cancel = true; //cancels form closing
-            }
+            e.Cancel = askToSave();
         }
 
         List<Card> populateCards(Subject subject)
@@ -130,6 +121,25 @@ namespace reRemember
                 }
             }
         }
+        
+        /// <summary>
+        /// Asks to save
+        /// </summary>
+        /// <returns>Returns a true or false of whether or not the user canceled</returns>
+        bool askToSave()
+        {
+            if (edited)
+            {
+                System.Windows.Forms.DialogResult dialogResult = MessageBox.Show("You haven't saved your changes.  Would you like to save?", "Warning!", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+                if (dialogResult == System.Windows.Forms.DialogResult.Yes)
+                    saveFile(string.IsNullOrEmpty(currentOpenFilePath)); //saves
+                else if (dialogResult == System.Windows.Forms.DialogResult.No)
+                    return false; //allow closing without saving
+                else
+                    return true; //cancels form closing
+            }
+            return false; //file saved
+        }
 
         /// <summary>
         /// Opens a file to the TreeView.
@@ -194,6 +204,8 @@ namespace reRemember
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
+            if (askToSave())
+                return;
             ofd.Filter = fileFilter;
             ofd.Title = "Open a reRemember file.";
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -338,6 +350,7 @@ namespace reRemember
             ListViewItem item = new ListViewItem(Helper.RtfToString(card.Front));
             item.SubItems.Add(Helper.RtfToString(card.Back));
             item.SubItems.Add(card.SubjectTitle);
+            item.Tag = card;
             listMain.Items.Add(item);
             ((Subject)lastSelectedNode.Tag).Cards.Add(card);
             //edited flag
@@ -370,15 +383,15 @@ namespace reRemember
             Card card = (Card)selectedItem.Tag;
             //editing form loaded with card in it
             //get edited card and save its data
-            Card newCard = EditingView.GetCard(card.Front, card.Back, false);
+            Card newCard = EditingView.GetCard(card, false);
             ((Subject)lastSelectedNode.Tag).Cards[((Subject)lastSelectedNode.Tag).Cards.IndexOf(card)] = newCard;
             ListViewItem item = new ListViewItem(Helper.RtfToString(newCard.Front));
             item.SubItems.Add(Helper.RtfToString(card.Back));
             item.SubItems.Add(card.SubjectTitle);
-            selectedItem.SubItems.Clear();
             selectedItem.Text = item.Text;
-            foreach (ListViewItem.ListViewSubItem subitem in item.SubItems)
-                selectedItem.SubItems.Add(subitem.Text);
+            selectedItem.SubItems.Clear();
+            for (int i = 1; i < item.SubItems.Count; i++)
+                selectedItem.SubItems.Add(item.SubItems[i].Text);
             selectedItem.Tag = newCard;
             //edited flag
             edited = true;
