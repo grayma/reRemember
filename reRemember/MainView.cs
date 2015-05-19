@@ -67,6 +67,15 @@ namespace reRemember
 
         #region Main Loading/Saving Functions
         /// <summary>
+        /// Throws edited flag and that the current form isn't saved.
+        /// </summary>
+        void doEdited()
+        {
+            edited = true;
+            this.Text = "reRemember [Not Saved]";
+        }
+        
+        /// <summary>
         /// Loads a TreeNode recursively from a subject class.
         /// </summary>
         /// <param name="subject">Subject to open from.</param>
@@ -106,6 +115,7 @@ namespace reRemember
                 SubjectFromTree().Save(currentOpenFilePath);
                 Helper.ShowInfo("Card set saved to " + currentOpenFilePath);
                 edited = false;
+                this.Text = "reRemember";
             }
             else
             {
@@ -118,6 +128,7 @@ namespace reRemember
                     currentOpenFilePath = sfd.FileName;
                     Helper.ShowInfo("Card set saved to " + currentOpenFilePath);
                     edited = false;
+                    this.Text = "reRemember";
                 }
             }
         }
@@ -198,7 +209,7 @@ namespace reRemember
             TreeNode node = new TreeNode(subject.Title);
             node.Tag = subject;
             treeMain.Nodes.Add(node);
-            edited = true;
+            doEdited();
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -300,7 +311,7 @@ namespace reRemember
             ((Subject)selectedNode.Parent.Tag).ChildSubjects.Remove((Subject)selectedNode.Tag);
             selectedNode.Remove();
             //edit flag
-            edited = true;
+            doEdited();
         }
 
         private void editSubjectNameToolStripMenuItem_Click(object sender, EventArgs e)
@@ -322,7 +333,7 @@ namespace reRemember
             if (selectedNode.Level > 0) //can't fix a root nodes parent because it is an orphan
                 ((Subject)selectedNode.Parent.Tag).ChildSubjects[((Subject)selectedNode.Parent.Tag).ChildSubjects.IndexOf((Subject)selectedNode.Tag)] = (Subject)selectedNode.Tag; //ew there has to be a better way to do this
             //edit flag
-            edited = true;
+            doEdited();
         }
 
         private void studySubjectToolStripMenuItem_Click(object sender, EventArgs e)
@@ -345,16 +356,18 @@ namespace reRemember
                 return;
             }
             //add card to list view and tag of selected node
-            Card card = EditingView.GetCard();
-            card.SubjectTitle = ((Subject)lastSelectedNode.Tag).Title;
-            ListViewItem item = new ListViewItem(Helper.RtfToString(card.Front));
-            item.SubItems.Add(Helper.RtfToString(card.Back));
-            item.SubItems.Add(card.SubjectTitle);
-            item.Tag = card;
+            Card newCard = EditingView.GetCard();
+            if (string.IsNullOrWhiteSpace(Helper.RtfToString(newCard.Front)) || string.IsNullOrWhiteSpace(Helper.RtfToString(newCard.Back)))
+                return; //don't edit 
+            newCard.SubjectTitle = ((Subject)lastSelectedNode.Tag).Title;
+            ListViewItem item = new ListViewItem(Helper.RtfToString(newCard.Front));
+            item.SubItems.Add(Helper.RtfToString(newCard.Back));
+            item.SubItems.Add(newCard.SubjectTitle);
+            item.Tag = newCard;
             listMain.Items.Add(item);
-            ((Subject)lastSelectedNode.Tag).Cards.Add(card);
+            ((Subject)lastSelectedNode.Tag).Cards.Add(newCard);
             //edited flag
-            edited = true;
+            doEdited();
         }
 
         private void deleteCardToolStripMenuItem_Click(object sender, EventArgs e)
@@ -369,7 +382,7 @@ namespace reRemember
             selectedItem.Remove();
             ((Subject)lastSelectedNode.Tag).Cards.Remove((Card)selectedItem.Tag);
             //edited flag
-            edited = true;
+            doEdited();
         }
 
         private void editCardToolStripMenuItem_Click(object sender, EventArgs e)
@@ -384,17 +397,17 @@ namespace reRemember
             //editing form loaded with card in it
             //get edited card and save its data
             Card newCard = EditingView.GetCard(card, false);
+            if (string.IsNullOrWhiteSpace(Helper.RtfToString(newCard.Front)) || string.IsNullOrWhiteSpace(Helper.RtfToString(newCard.Back)))
+                return; //don't edit 
             ((Subject)lastSelectedNode.Tag).Cards[((Subject)lastSelectedNode.Tag).Cards.IndexOf(card)] = newCard;
             ListViewItem item = new ListViewItem(Helper.RtfToString(newCard.Front));
-            item.SubItems.Add(Helper.RtfToString(card.Back));
-            item.SubItems.Add(card.SubjectTitle);
-            selectedItem.Text = item.Text;
-            selectedItem.SubItems.Clear();
-            for (int i = 1; i < item.SubItems.Count; i++)
-                selectedItem.SubItems.Add(item.SubItems[i].Text);
-            selectedItem.Tag = newCard;
+            item.SubItems.Add(Helper.RtfToString(newCard.Back));
+            item.SubItems.Add(newCard.SubjectTitle);
+            item.Tag = newCard;
+            listMain.Items.Insert(selectedItem.Index, item);
+            selectedItem.Remove();
             //edited flag
-            edited = true;
+            doEdited();
         }
         #endregion
     }

@@ -41,6 +41,7 @@
             this.listMain = new System.Windows.Forms.ListView();
             this.front = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.back = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.subject = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.contextMenuList = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.newCardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteCardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,7 +70,6 @@
             this.selectAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.subject = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -93,7 +93,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.listMain);
             this.splitContainer1.Size = new System.Drawing.Size(640, 330);
-            this.splitContainer1.SplitterDistance = 212;
+            this.splitContainer1.SplitterDistance = 211;
             this.splitContainer1.TabIndex = 0;
             // 
             // treeMain
@@ -102,7 +102,7 @@
             this.treeMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeMain.Location = new System.Drawing.Point(0, 0);
             this.treeMain.Name = "treeMain";
-            this.treeMain.Size = new System.Drawing.Size(212, 330);
+            this.treeMain.Size = new System.Drawing.Size(211, 330);
             this.treeMain.TabIndex = 0;
             this.treeMain.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeMain_NodeMouseClick);
             // 
@@ -158,10 +158,11 @@
             this.subject});
             this.listMain.ContextMenuStrip = this.contextMenuList;
             this.listMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listMain.FullRowSelect = true;
             this.listMain.GridLines = true;
             this.listMain.Location = new System.Drawing.Point(0, 0);
             this.listMain.Name = "listMain";
-            this.listMain.Size = new System.Drawing.Size(424, 330);
+            this.listMain.Size = new System.Drawing.Size(425, 330);
             this.listMain.TabIndex = 0;
             this.listMain.UseCompatibleStateImageBehavior = false;
             this.listMain.View = System.Windows.Forms.View.Details;
@@ -175,6 +176,11 @@
             // 
             this.back.Text = "Back";
             this.back.Width = 120;
+            // 
+            // subject
+            // 
+            this.subject.Text = "Subject";
+            this.subject.Width = 149;
             // 
             // contextMenuList
             // 
@@ -405,11 +411,6 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.aboutToolStripMenuItem.Text = "&About...";
-            // 
-            // subject
-            // 
-            this.subject.Text = "Subject";
-            this.subject.Width = 149;
             // 
             // MainView
             // 
