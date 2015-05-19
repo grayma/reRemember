@@ -38,14 +38,15 @@ namespace reRemember
             e.Cancel = askToSave();
         }
 
-        List<Card> populateCards(Subject subject)
+        List<Card> populateCards(Subject subject, bool includeSubCards=false)
         {
             List<Card> returnCards = new List<Card>();
             returnCards.AddRange(subject.Cards);
-            //removed because of editing with last selected node didn't work with recursiveness
-            //also might be better to not have
-            //foreach (Subject innerSubject in subject.ChildSubjects)
-            //    returnCards.AddRange(populateCards(innerSubject));
+            if (includeSubCards)
+            {
+                foreach (Subject innerSubject in subject.ChildSubjects)
+                    returnCards.AddRange(populateCards(innerSubject));
+            }
             return returnCards;
         }
 
@@ -339,7 +340,17 @@ namespace reRemember
         private void studySubjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //create menu/form to ask which method they'd like to study by
+            System.Windows.Forms.DialogResult dialogResult =
+                MessageBox.Show("Would you like to study this subject's child subjects along with it?",
+                "Studying Options", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            if (dialogResult == System.Windows.Forms.DialogResult.Cancel)
+                return; //no studying today
+            bool includeChildren = dialogResult == System.Windows.Forms.DialogResult.Yes ? true : false;
+            //in the future add other study methods
+            StudySession session = new StudySession();
+            session.SessionCards = populateCards((Subject)lastSelectedNode.Tag, includeChildren);
             //hide main form, create study dialog, and let study session occur
+            this.Hide();
             //get and display results
             //add study session to past study sessions
             //show main form and edit flag or prompt for saving
