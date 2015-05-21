@@ -347,13 +347,15 @@ namespace reRemember
                 return; //no studying today
             bool includeChildren = dialogResult == System.Windows.Forms.DialogResult.Yes ? true : false;
             //in the future add other study methods
-            StudySession session = new StudySession();
-            session.SessionCards = populateCards((Subject)lastSelectedNode.Tag, includeChildren);
             //hide main form, create study dialog, and let study session occur
             this.Hide();
+            StudySession session = StudyView.CreateSession(populateCards((Subject)lastSelectedNode.Tag, includeChildren));
             //get and display results
+            ResultView.ShowResults(session);
             //add study session to past study sessions
+            ((RootSubject)treeMain.Nodes[0].Tag).PastStudySessions.Add(session);
             //show main form and edit flag or prompt for saving
+            doEdited();
         }
         #endregion
 
