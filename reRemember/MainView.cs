@@ -361,6 +361,7 @@ namespace reRemember
             //add study session to past study sessions
             ((RootSubject)treeMain.Nodes[0].Tag).PastStudySessions.Add(session);
             //show main form and edit flag or prompt for saving
+            this.Show();
             doEdited();
         }
         #endregion
