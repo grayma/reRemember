@@ -349,7 +349,13 @@ namespace reRemember
             //in the future add other study methods
             //hide main form, create study dialog, and let study session occur
             this.Hide();
-            StudySession session = StudyView.CreateSession(populateCards((Subject)lastSelectedNode.Tag, includeChildren));
+            List<Card> cards = populateCards((Subject)lastSelectedNode.Tag, includeChildren);
+            if (cards.Count < 3)
+            {
+                Helper.ShowError("There must be at least 3 cards to study.");
+                return;
+            }
+            StudySession session = StudyView.CreateSession(cards);
             //get and display results
             ResultView.ShowResults(session);
             //add study session to past study sessions

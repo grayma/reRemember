@@ -26,8 +26,6 @@ namespace reRemember
             }
         }
         int currentCardIndex = 0;
-        int correct = 0;
-        int incorrect = 0;
         bool showingFront = true;
 
         public StudyView()
@@ -52,7 +50,14 @@ namespace reRemember
 
         void updateStatus()
         {
-            labelStatus.Text = "Card " + (currentCardIndex + 1).ToString() + "/" + studyCards.Count.ToString();
+            string status = "";
+            if (currentCard.CardStatus == 0)
+                status = "Not Guessed";
+            else if (currentCard.CardStatus == 1)
+                status = "Correct";
+            else
+                status = "Incorrect";
+            labelStatus.Text = "Card [" + status + "] " + (currentCardIndex + 1).ToString() + "/" + studyCards.Count.ToString();
         }
 
         private void StudyView_Load(object sender, EventArgs e)
@@ -65,27 +70,37 @@ namespace reRemember
             updateStatus();
         }
 
-        private void buttonFlip_Click(object sender, EventArgs e)
-        {
-            if (showingFront)
-                richCardView.Rtf = currentCard.Back;
-            else
-                richCardView.Rtf = currentCard.Front;
-            showingFront = !showingFront;
-        }
-
-        private void buttonPrevious_Click(object sender, EventArgs e)
+        #region Navigation
+        void previous()
         {
             if (currentCardIndex != 0)
             {
                 currentCardIndex--;
                 this.richCardView.Rtf = currentCard.Front;
                 updateStatus();
-                buttonPrevious.Enabled = true;
+                buttonNext.Enabled = true;
+                if (currentCardIndex == 0)
+                    buttonPrevious.Enabled = false;
             }
-            buttonPrevious.Enabled = false;
         }
-
+        void next()
+        {
+            if (currentCardIndex == studyCards.Count - 1)
+            {
+                finish();
+                return;
+            }
+            if (currentCardIndex != studyCards.Count - 1)
+            {
+                currentCardIndex++;
+                this.richCardView.Rtf = currentCard.Front;
+                updateStatus();
+                buttonPrevious.Enabled = true;
+                if (currentCardIndex == studyCards.Count - 1)
+                    buttonNext.Enabled = false;
+                return;
+            }
+        }
         void finish()
         {
             if (MessageBox.Show("Are you sure you want to quit?  All unfinished cards will be marked incorrect.",
@@ -98,43 +113,42 @@ namespace reRemember
                     card.CardStatus = (int)CardStatus.Incorrect;
             this.Close();
         }
+        #endregion
 
-        private void buttonFinish_Click(object sender, EventArgs e)
-        {
-            finish();
-        }
-
-        void next()
-        {
-            if (currentCardIndex != studyCards.Count - 1)
-            {
-                currentCardIndex++;
-                this.richCardView.Rtf = currentCard.Front;
-                updateStatus();
-                buttonNext.Enabled = true;
-                return;
-            }
-            finish();
-        }
-
+        #region Form Button Events
         private void buttonNext_Click(object sender, EventArgs e)
         {
             next();   
         }
-
+        private void buttonPrevious_Click(object sender, EventArgs e)
+        {
+            previous();
+        }
+        private void buttonFinish_Click(object sender, EventArgs e)
+        {
+            finish();
+        }
         private void buttonCorrect_Click(object sender, EventArgs e)
         {
             currentCard.TotalAttempts++;
             currentCard.CorrectAttempts++;
-            currentCardIndex++;
+            currentCard.CardStatus = 1;
             next();
         }
-
         private void buttonIncorrect_Click(object sender, EventArgs e)
         {
             currentCard.TotalAttempts++;
-            currentCardIndex++;
+            currentCard.CardStatus = 2;
             next();
         }
+        private void buttonFlip_Click(object sender, EventArgs e)
+        {
+            if (showingFront)
+                richCardView.Rtf = currentCard.Back;
+            else
+                richCardView.Rtf = currentCard.Front;
+            showingFront = !showingFront;
+        }
+        #endregion
     }
 }
